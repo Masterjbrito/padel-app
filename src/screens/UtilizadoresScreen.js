@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getFirestore, collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { criarPerfil } from '../services/authService';
 import { useAuth } from '../context/AuthContext';
@@ -12,6 +13,14 @@ import { colors } from '../theme/colors';
 
 const db = getFirestore();
 const auth = getAuth();
+
+// App secundária para criar utilizadores sem afectar a sessão actual
+function getSecondaryAuth() {
+  const secondaryAppName = 'SecondaryApp';
+  const existingApp = getApps().find((a) => a.name === secondaryAppName);
+  const app = existingApp || initializeApp(getApps()[0].options, secondaryAppName);
+  return getAuth(app);
+}
 
 export default function UtilizadoresScreen() {
   const { perfil } = useAuth();
@@ -39,8 +48,10 @@ export default function UtilizadoresScreen() {
     }
     setCriando(true);
     try {
-      const cred = await createUserWithEmailAndPassword(auth, novoEmail.trim(), novoPassword);
+      const secondaryAuth = getSecondaryAuth();
+      const cred = await createUserWithEmailAndPassword(secondaryAuth, novoEmail.trim(), novoPassword);
       await criarPerfil(cred.user.uid, novoEmail.trim(), novoNome.trim(), novoRole);
+      await secondaryAuth.signOut();
       setModalVisible(false);
       setNovoEmail(''); setNovoNome(''); setNovoPassword(''); setNovoRole('viewer');
       Alert.alert('✅', `Utilizador ${novoNome} criado com sucesso.`);
