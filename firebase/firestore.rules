@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Jogos: leitura livre, escrita editores/admins, apagar só admins
+    match /jogos/{jogoId} {
+      allow read: if true;
+      allow create, update: if request.auth != null &&
+        get(/databases/$(database)/documents/utilizadores/$(request.auth.uid)).data.role in ['editor', 'admin'];
+      allow delete: if request.auth != null &&
+        get(/databases/$(database)/documents/utilizadores/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Utilizadores
+    match /utilizadores/{uid} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null; // registo de novos utilizadores
+      allow update: if request.auth != null && (
+        request.auth.uid == uid ||  // utilizador atualiza o seu próprio perfil (ex: pushToken, nome)
+        get(/databases/$(database)/documents/utilizadores/$(request.auth.uid)).data.role == 'admin'
+      );
+      allow delete: if request.auth != null &&
+        get(/databases/$(database)/documents/utilizadores/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}

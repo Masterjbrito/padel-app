@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Padel SERUL",
+    "slug": "padel-serul",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0066cc"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.serul.padel",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0066cc"
+      },
+      "package": "masterjbrito.padel.serul",
+      "versionCode": 1,
+      "googleServicesFile": "./google-services.json",
+      "minSdkVersion": 24,
+      "permissions": [
+        "INTERNET",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#0066cc"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b4063555-6c5e-441c-a617-73a9c9e173fd"
+      }
+    },
+    "owner": "masterjbrito"
+  }
+}

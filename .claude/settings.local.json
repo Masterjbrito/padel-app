@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"websocket\\\\|WebSocket\\\\|ws\\\\|SSE\" /c/Users/jbrito/Documents/Jarvis/backend/app/api --include=\"*.py\" 2>/dev/null | head -20)",
+      "Bash(find /c/Users/jbrito/Documents/Jarvis/frontend -type f -name \"*.tsx\" -o -name \"*.ts\" -o -name \"*.jsx\" -o -name \"*.js\" 2>/dev/null | head -20)",
+      "Bash(cd /c/Users/jbrito/Documents/Jarvis && backend/.venv/Scripts/pip install msal --quiet)",
+      "Bash(taskkill //F //IM python.exe //T 2>/dev/null; sleep 1; echo \"killed\")",
+      "Bash(curl -s http://127.0.0.1:8765/email/monitor/status)",
+      "Bash(sleep 10 && curl -s http://127.0.0.1:8765/health)",
+      "Bash(powershell.exe -Command \"Get-Process Jarvis -ErrorAction SilentlyContinue | Select-Object Id, MainWindowTitle\")",
+      "Bash(start /c/Users/jbrito/Documents/Jarvis/src/Jarvis.Desktop/bin/Debug/net8.0-windows/Jarvis.exe)",
+      "Bash(curl -s http://127.0.0.1:8765/google/status)",
+      "Bash(curl -s -X POST http://127.0.0.1:8765/google/authorize)"
+    ]
+  }
+}

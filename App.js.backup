@@ -1,0 +1,92 @@
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet } from 'react-native';
+
+import TodosScreen from './src/screens/TodosScreen';
+import AndamentoScreen from './src/screens/AndamentoScreen';
+import FuturosScreen from './src/screens/FuturosScreen';
+import TerminadosScreen from './src/screens/TerminadosScreen';
+import EstatisticasScreen from './src/screens/EstatisticasScreen';
+import { colors } from './src/theme/colors';
+
+const Tab = createBottomTabNavigator();
+
+function HeaderLogo() {
+  return (
+    <View style={styles.headerLogo}>
+      <Ionicons name="tennisball" size={22} color={colors.white} />
+      <Text style={styles.headerTitle}>Padel SERUL</Text>
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StatusBar style="light" backgroundColor={colors.primary} />
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            const icons = {
+              Todos: focused ? 'grid' : 'grid-outline',
+              'A Decorrer': focused ? 'radio-button-on' : 'radio-button-off',
+              'Próximos': focused ? 'calendar' : 'calendar-outline',
+              Terminados: focused ? 'checkmark-circle' : 'checkmark-circle-outline',
+              Estatísticas: focused ? 'bar-chart' : 'bar-chart-outline',
+            };
+            return <Ionicons name={icons[route.name] || 'apps'} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: colors.textLight,
+          tabBarStyle: {
+            height: 60,
+            paddingBottom: 8,
+            paddingTop: 6,
+            backgroundColor: colors.white,
+            borderTopColor: colors.border,
+          },
+          tabBarLabelStyle: {
+            fontSize: 10,
+            fontWeight: '600',
+          },
+          headerStyle: {
+            backgroundColor: colors.primary,
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTintColor: colors.white,
+          headerTitleStyle: {
+            fontWeight: '700',
+            fontSize: 18,
+          },
+          headerLeft: () => <HeaderLogo />,
+          headerLeftContainerStyle: { paddingLeft: 16 },
+          headerTitle: '',
+        })}
+      >
+        <Tab.Screen name="Todos" component={TodosScreen} />
+        <Tab.Screen name="A Decorrer" component={AndamentoScreen} />
+        <Tab.Screen name="Próximos" component={FuturosScreen} />
+        <Tab.Screen name="Terminados" component={TerminadosScreen} />
+        <Tab.Screen name="Estatísticas" component={EstatisticasScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  headerLogo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  headerTitle: {
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+});
