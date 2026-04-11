@@ -126,6 +126,10 @@ exports.onJogoAtualizado = functions.firestore
       });
 
       await enviarTelegram(mensagem);
+      await enviarPushNotifications(
+        '📊 Resultado atualizado',
+        `${equipaA} vs ${equipaB} — Sets: ${sets || 'N/A'}`
+      );
       return;
     }
 

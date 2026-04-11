@@ -43,7 +43,9 @@ export async function registarNotificacoes(uid) {
 
     if (finalStatus !== 'granted') return null;
 
-    const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+    const projectId =
+      Constants.easConfig?.projectId ||
+      Constants.expoConfig?.extra?.eas?.projectId;
     const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
 
     if (uid && token) {
