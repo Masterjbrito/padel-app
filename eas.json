@@ -17,15 +17,13 @@
       "android": {
         "buildType": "apk",
         "credentialsSource": "remote"
-      },
-      "channel": "preview"
+      }
     },
     "production": {
       "android": {
         "buildType": "app-bundle",
         "credentialsSource": "remote"
-      },
-      "channel": "production"
+      }
     }
   },
   "submit": {

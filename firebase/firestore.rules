@@ -2,9 +2,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Jogos: leitura livre, escrita editores/admins, apagar só admins
+    // Jogos: leitura para autenticados, escrita editores/admins, apagar só admins
     match /jogos/{jogoId} {
-      allow read: if true;
+      allow read: if request.auth != null;
       allow create, update: if request.auth != null &&
         get(/databases/$(database)/documents/utilizadores/$(request.auth.uid)).data.role in ['editor', 'admin'];
       allow delete: if request.auth != null &&
