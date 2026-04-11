@@ -39,7 +39,10 @@ async function enviarPushNotifications(titulo, corpo) {
       .map((d) => d.data().pushToken)
       .filter((t) => t && t.startsWith('ExponentPushToken'));
 
-    if (tokens.length === 0) return;
+    if (tokens.length === 0) {
+      console.log('ℹ️ Sem tokens Expo válidos para envio de push.');
+      return;
+    }
 
     const messages = tokens.map((token) => ({
       to: token,
@@ -49,12 +52,22 @@ async function enviarPushNotifications(titulo, corpo) {
       priority: 'high',
     }));
 
-    await fetch('https://exp.host/--/api/v2/push/send', {
+    const response = await fetch('https://exp.host/--/api/v2/push/send', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(messages),
     });
-    console.log(`✅ Push enviado para ${tokens.length} dispositivos.`);
+
+    const result = await response.json();
+    const tickets = result?.data || [];
+    const successCount = tickets.filter((t) => t.status === 'ok').length;
+    const errorTickets = tickets.filter((t) => t.status === 'error');
+
+    console.log(`✅ Push processado: ${successCount}/${tokens.length} tickets OK.`);
+
+    if (errorTickets.length > 0) {
+      console.error('❌ Tickets com erro no Expo Push:', JSON.stringify(errorTickets));
+    }
   } catch (e) {
     console.error('❌ Erro push:', e.message);
   }
