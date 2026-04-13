@@ -11,6 +11,15 @@ import { SkeletonCard } from '../components/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../theme/colors';
 
+function mensagemErroJogo(error, fallback) {
+  const code = error?.code;
+  if (code === 'permission-denied') return 'Sem permissão para esta ação.';
+  if (code === 'unavailable') return 'Sem ligação ao servidor. Tenta novamente.';
+  if (code === 'deadline-exceeded') return 'A operação demorou demasiado tempo. Tenta novamente.';
+  if (code === 'unauthenticated') return 'Sessão expirada. Inicia sessão novamente.';
+  return fallback;
+}
+
 function AnimatedPulseDot() {
   const scale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(0.7)).current;
@@ -67,7 +76,7 @@ export default function AndamentoScreen() {
     try {
       await atualizarJogo(jogoId, { [campo]: valor });
     } catch (e) {
-      Alert.alert('Erro', 'Não foi possível atualizar o set.');
+      Alert.alert('Erro', mensagemErroJogo(e, 'Não foi possível atualizar o set.'));
     } finally {
       setSalvando((prev) => ({ ...prev, [jogoId]: false }));
     }
@@ -87,7 +96,7 @@ export default function AndamentoScreen() {
             try {
               await atualizarJogo(jogo.id, { status: 'Terminado' });
             } catch (e) {
-              Alert.alert('Erro', 'Não foi possível terminar o jogo.');
+              Alert.alert('Erro', mensagemErroJogo(e, 'Não foi possível terminar o jogo.'));
             } finally {
               setSalvando((prev) => ({ ...prev, [jogo.id]: false }));
             }

@@ -12,6 +12,15 @@ import { NIVEIS } from '../constants/jogadores';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
 
+function mensagemErroJogo(error, fallback) {
+  const code = error?.code;
+  if (code === 'permission-denied') return 'Sem permissão para esta ação.';
+  if (code === 'unavailable') return 'Sem ligação ao servidor. Tenta novamente.';
+  if (code === 'deadline-exceeded') return 'A operação demorou demasiado tempo. Tenta novamente.';
+  if (code === 'unauthenticated') return 'Sessão expirada. Inicia sessão novamente.';
+  return fallback;
+}
+
 export default function FuturosScreen() {
   const { perfil } = useAuth();
   const isAdmin = perfil?.role === 'admin';
@@ -40,7 +49,7 @@ export default function FuturosScreen() {
       setNovoTorneio('');
       setModalNovoJogo(false);
     } catch (e) {
-      Alert.alert('Erro', 'Não foi possível criar o jogo.');
+      Alert.alert('Erro', mensagemErroJogo(e, 'Não foi possível criar o jogo.'));
     } finally {
       setCriando(false);
     }
@@ -141,7 +150,7 @@ function JogoFuturoCard({ jogo, isAdmin }) {
             try {
               await iniciarJogo(jogo.id, j1A, j2A, j1B, j2B, nivel);
             } catch (e) {
-              Alert.alert('Erro', 'Não foi possível iniciar o jogo.');
+              Alert.alert('Erro', mensagemErroJogo(e, 'Não foi possível iniciar o jogo.'));
             } finally {
               setSalvando(false);
             }
