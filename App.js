@@ -70,6 +70,8 @@ function BotaoPerfil({ navigation }) {
     <TouchableOpacity
       style={styles.avatarBtn}
       onPress={() => navigation.navigate('Perfil')}
+      accessibilityRole="button"
+      accessibilityLabel="Abrir perfil"
     >
       <Animated.View style={[styles.avatarRing, { transform: [{ scale: pulseAnim }] }]} />
       <View style={[styles.avatarMini, { backgroundColor: avatarColor }]}>
@@ -142,7 +144,12 @@ function AppStack() {
           headerTintColor: colors.white,
           headerTitleStyle: { fontWeight: '700' },
           headerRight: () => (
-            <TouchableOpacity onPress={handleLogout} style={{ padding: 4 }}>
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={{ padding: 4 }}
+              accessibilityRole="button"
+              accessibilityLabel="Terminar sessão"
+            >
               <Ionicons name="log-out-outline" size={24} color={colors.white} />
             </TouchableOpacity>
           ),

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   View, Text, StyleSheet, FlatList, TouchableOpacity,
-  Alert, ActivityIndicator, RefreshControl, Animated,
+  Alert, ActivityIndicator, Animated,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ouvirJogosAndamento, atualizarJogo, apagarJogo } from '../services/firebaseService';
@@ -172,6 +172,8 @@ export default function AndamentoScreen() {
             style={styles.btnTerminar}
             onPress={() => handleTerminar(item)}
             disabled={isSalvando}
+            accessibilityRole="button"
+            accessibilityLabel={`Terminar jogo ${item.torneio}`}
           >
             <Ionicons name="checkmark-circle" size={18} color={colors.white} />
             <Text style={styles.btnTerminarText}>Terminar Jogo</Text>
@@ -186,6 +188,8 @@ export default function AndamentoScreen() {
                 { text: 'Apagar', style: 'destructive', onPress: () => apagarJogo(item.id) },
               ]);
             }}
+            accessibilityRole="button"
+            accessibilityLabel={`Apagar jogo ${item.torneio}`}
           >
             <Ionicons name="trash-outline" size={16} color={colors.danger} />
             <Text style={styles.btnApagarJogoText}>Apagar jogo</Text>

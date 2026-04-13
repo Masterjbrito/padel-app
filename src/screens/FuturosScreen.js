@@ -82,7 +82,12 @@ export default function FuturosScreen() {
         }
       />
 
-      <TouchableOpacity style={styles.fab} onPress={() => setModalNovoJogo(true)}>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => setModalNovoJogo(true)}
+        accessibilityRole="button"
+        accessibilityLabel="Criar novo jogo"
+      >
         <Ionicons name="add" size={28} color={colors.white} />
       </TouchableOpacity>
 
@@ -107,6 +112,8 @@ export default function FuturosScreen() {
               style={[styles.btnCriar, criando && styles.btnDisabled]}
               onPress={criarJogo}
               disabled={criando}
+              accessibilityRole="button"
+              accessibilityLabel="Criar jogo"
             >
               {criando
                 ? <ActivityIndicator color={colors.white} />
@@ -175,6 +182,8 @@ function JogoFuturoCard({ jogo, isAdmin }) {
         <TouchableOpacity
           style={[styles.nivelBadge, nivel ? styles.nivelBadgeFilled : null]}
           onPress={() => setNivelModal(true)}
+          accessibilityRole="button"
+          accessibilityLabel={`Selecionar nível para jogo ${jogo.torneio}`}
         >
           <Text style={[styles.nivelText, nivel ? styles.nivelTextFilled : null]}>
             {nivel || 'Nível ▾'}
@@ -189,6 +198,8 @@ function JogoFuturoCard({ jogo, isAdmin }) {
                 { text: 'Apagar', style: 'destructive', onPress: () => apagarJogo(jogo.id) },
               ]);
             }}
+            accessibilityRole="button"
+            accessibilityLabel={`Apagar jogo ${jogo.torneio}`}
           >
             <Ionicons name="trash-outline" size={18} color={colors.danger} />
           </TouchableOpacity>
@@ -211,6 +222,8 @@ function JogoFuturoCard({ jogo, isAdmin }) {
         style={[styles.btnIniciar, !todosPreenchidos && styles.btnDisabled]}
         onPress={handleIniciar}
         disabled={salvando}
+        accessibilityRole="button"
+        accessibilityLabel={`Iniciar jogo ${jogo.torneio}`}
       >
         <Ionicons name="play-circle" size={20} color={colors.white} />
         <Text style={styles.btnIniciarText}>Iniciar Jogo</Text>

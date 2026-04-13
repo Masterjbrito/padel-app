@@ -186,7 +186,12 @@ export default function LoginScreen({ navigation }) {
               secureTextEntry={!showPassword}
               placeholderTextColor={colors.textLight}
             />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeBtn}>
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
+              style={styles.eyeBtn}
+              accessibilityRole="button"
+              accessibilityLabel={showPassword ? 'Esconder password' : 'Mostrar password'}
+            >
               <Ionicons
                 name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                 size={20}
@@ -195,7 +200,12 @@ export default function LoginScreen({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => { setForgotEmail(email); setShowForgot(true); }} style={styles.forgotLink}>
+          <TouchableOpacity
+            onPress={() => { setForgotEmail(email); setShowForgot(true); }}
+            style={styles.forgotLink}
+            accessibilityRole="button"
+            accessibilityLabel="Recuperar password"
+          >
             <Text style={styles.forgotText}>Esqueci a password</Text>
           </TouchableOpacity>
 
@@ -204,6 +214,8 @@ export default function LoginScreen({ navigation }) {
             onPress={handleLogin}
             disabled={loading}
             activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="Entrar na aplicação"
           >
             {loading
               ? <ActivityIndicator color={colors.white} />
@@ -226,6 +238,8 @@ export default function LoginScreen({ navigation }) {
             style={styles.btnRegister}
             onPress={() => navigation.navigate('Registo')}
             activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="Criar conta"
           >
             <Ionicons name="person-add-outline" size={18} color={colors.primary} />
             <Text style={styles.btnRegisterText}>Criar conta</Text>
@@ -261,13 +275,20 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             <View style={styles.modalBtns}>
-              <TouchableOpacity style={styles.modalBtnCancel} onPress={() => setShowForgot(false)}>
+              <TouchableOpacity
+                style={styles.modalBtnCancel}
+                onPress={() => setShowForgot(false)}
+                accessibilityRole="button"
+                accessibilityLabel="Cancelar recuperação"
+              >
                 <Text style={styles.modalBtnCancelText}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modalBtnSend, forgotLoading && styles.btnDisabled]}
                 onPress={handleForgotSend}
                 disabled={forgotLoading}
+                accessibilityRole="button"
+                accessibilityLabel="Enviar email de recuperação"
               >
                 {forgotLoading
                   ? <ActivityIndicator color={colors.white} size="small" />
