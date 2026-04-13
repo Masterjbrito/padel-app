@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
-import { getFirestore, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import Constants from 'expo-constants';
+import { db } from './firebaseClient';
 
 // Será importado condicionalmente para não quebrar web
 let Notifications;
@@ -49,7 +50,6 @@ export async function registarNotificacoes(uid) {
     const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
 
     if (uid && token) {
-      const db = getFirestore();
       await updateDoc(doc(db, 'utilizadores', uid), { pushToken: token });
     }
 

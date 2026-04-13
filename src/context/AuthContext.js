@@ -13,9 +13,13 @@ export function AuthProvider({ children }) {
     const unsubscribe = ouvirAuthState(async (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
-        console.log('🔑 UID do utilizador:', firebaseUser.uid);
+        if (__DEV__) {
+          console.log('🔑 UID do utilizador:', firebaseUser.uid);
+        }
         const p = await obterPerfil(firebaseUser.uid);
-        console.log('👤 Perfil carregado:', JSON.stringify(p));
+        if (__DEV__) {
+          console.log('👤 Perfil carregado:', JSON.stringify(p));
+        }
         setPerfil(p);
         registarNotificacoes(firebaseUser.uid).catch(() => {});
       } else {

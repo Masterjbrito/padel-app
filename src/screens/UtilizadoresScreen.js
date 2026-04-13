@@ -4,22 +4,20 @@ import {
   Alert, ActivityIndicator, Modal, TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getFirestore, collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { criarPerfil } from '../services/authService';
+import { app, auth, db } from '../services/firebaseClient';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../theme/colors';
-
-const db = getFirestore();
-const auth = getAuth();
 
 // App secundária para criar utilizadores sem afectar a sessão actual
 function getSecondaryAuth() {
   const secondaryAppName = 'SecondaryApp';
   const existingApp = getApps().find((a) => a.name === secondaryAppName);
-  const app = existingApp || initializeApp(getApps()[0].options, secondaryAppName);
-  return getAuth(app);
+  const secondaryApp = existingApp || initializeApp(app.options, secondaryAppName);
+  return getAuth(secondaryApp);
 }
 
 export default function UtilizadoresScreen() {
