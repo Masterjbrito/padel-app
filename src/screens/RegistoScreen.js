@@ -43,6 +43,7 @@ export default function RegistoScreen({ navigation }) {
     ).start();
   }, []);
 
+  const { registarNotificacoes } = require('../services/notificationService');
   const handleRegisto = async () => {
     if (!nome.trim()) { Alert.alert('Atenção', 'Insere o teu nome.'); return; }
     if (!email.trim()) { Alert.alert('Atenção', 'Insere o teu email.'); return; }
@@ -53,6 +54,8 @@ export default function RegistoScreen({ navigation }) {
     try {
       const user = await registar(email.trim().toLowerCase(), password);
       await criarPerfil(user.uid, email.trim().toLowerCase(), nome.trim(), 'viewer');
+      // Garantir pushToken no registo
+      await registarNotificacoes(user.uid);
       // Auth state change → app vai para o ecrã principal automaticamente
     } catch (e) {
       const msgs = {
